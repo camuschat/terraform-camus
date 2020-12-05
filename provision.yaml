@@ -1,0 +1,25 @@
+#cloud-config
+
+write_files:
+  - content: ${base64encode(nginx_conf)}
+    encoding: b64
+    path: /etc/nginx/conf.d/camus.conf
+    owner: root:root
+    permissions: '0644'
+  - content: ${base64encode(ssl_cert)}
+    encoding: b64
+    path: /etc/ssl/certs/camus.pem
+    owner: root:root
+    permissions: '0644'
+  - content: ${base64encode(ssl_key)}
+    encoding: b64
+    path: /etc/ssl/private/camus-key.pem
+    owner: root:root
+    permissions: '0600'
+
+packages:
+  - snapd
+  - nginx
+
+runcmd:
+  - snap install camus
