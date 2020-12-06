@@ -36,8 +36,8 @@ resource "digitalocean_droplet" "main" {
   monitoring = var.droplet_monitoring
   ipv6 = var.droplet_ipv6
   vpc_uuid = digitalocean_vpc.main.id
-  user_data = templatefile("provision.yaml", {
-    nginx_conf = templatefile("nginx.conf", { domain = var.domain })
+  user_data = templatefile("${path.module}/provision.yaml", {
+    nginx_conf = templatefile("${path.module}/nginx.conf", { domain = var.domain })
     ssl_cert = "${acme_certificate.certificate.certificate_pem}${acme_certificate.certificate.issuer_pem}",
     ssl_key = acme_certificate.certificate.private_key_pem
   })
