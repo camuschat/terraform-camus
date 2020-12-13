@@ -76,28 +76,33 @@ records to propagate.)
 
 ### Inputs
 
-| Name                | Description                                                             | Type     | Default         | Required |
-| ------------------- | ----------------------------------------------------------------------- | -------- | --------------- | -------- |
-| do_token            | Your Digital Ocean [API token][do-token].                               | `string` |                 | Yes      |
-| domain              | The domain for your site.                                               | `string` |                 | Yes      |
-| certificate_email   | The email address for the SSL certificate.                              | `string` |                 | Yes      |
-| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet. | `string` |                 | Yes      |
-| region              | The region where the droplet is deployed.                               | `string` | `"fra1"`        | No       |
-| droplet_size        | The size of the droplet.                                                | `string` | `"s-1vcpu-1gb"` | No       |
-| droplet_backups     | Whether to enable backups on the droplet.                               | `bool`   | `false`         | No       |
-| droplet_monitoring  | Whether to enable monitoring on the droplet.                            | `bool`   | `false`         | No       |
-| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                  | `bool`   | `false`         | No       |
+| Name                | Description                                                             | Type     | Default                                            | Required |
+| ------------------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------- | -------- |
+| do_token            | Your Digital Ocean [API token][do-token].                               | `string` |                                                    | Yes      |
+| domain              | The domain for your site.                                               | `string` |                                                    | Yes      |
+| certificate_email   | The email address for the SSL certificate.                              | `string` |                                                    | Yes      |
+| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet. | `string` |                                                    | Yes      |
+| region              | The region where the droplet is deployed.                               | `string` | `"fra1"`                                           | No       |
+| droplet_size        | The size of the droplet.                                                | `string` | `"s-1vcpu-1gb"`                                    | No       |
+| droplet_image       | The OS image for the droplet.                                           | `string` | `"ubuntu-20-04-x64"`                               | No       |
+| droplet_backups     | Whether to enable backups on the droplet.                               | `bool`   | `false`                                            | No       |
+| droplet_monitoring  | Whether to enable monitoring on the droplet.                            | `bool`   | `false`                                            | No       |
+| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                  | `bool`   | `false`                                            | No       |
+| project_environment | The deployment environment for the project.                             | `string` | `"Production"`                                     | No       |
+| acme_url            | The URL of the ACME server used to obtain an SSL certificate.           | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | No       |
 
 ### Outputs
 
-| Name         | Description                               |
-| ------------ | ----------------------------------------- |
-| droplet_name | The name of the Droplet.                  |
-| droplet_id   | The ID of the Droplet.                    |
-| droplet_urn  | The uniform resource name of the Droplet. |
-| url          | The website URL.                          |
+| Name                 | Description                               |
+| -------------------- | ----------------------------------------- |
+| droplet_name         | The name of the Droplet.                  |
+| droplet_id           | The ID of the Droplet.                    |
+| droplet_urn          | The uniform resource name of the Droplet. |
+| droplet_ipv4_address | The IPv4 address of the Droplet.          |
+| droplet_ipv6_address | The IPv6 address of the Droplet.          |
+| url                  | The website URL.                          |
 
-## Example
+### Example
 
 You can call this module from other Terraform code, e.g.:
 
@@ -111,8 +116,19 @@ module "camus" {
   ssh_key_fingerprint = "00:11:22:33:44:55:66:77:88:99:aa:bb:cc:dd:ee:ff"
   region = "sgp1"
   droplet_size = "s-1vcpu-2gb"
+  droplet_image = "debian-10-x64"
 }
 ```
+
+### Notes
+
+The following droplet images are supported:
+
+- `debian-10-x64`
+- `ubuntu-20-04-x64`
+- `ubuntu-18-04-x64`
+- `centos-8-x64`
+- `centos-7-x64`
 
 [camus]: https://github.com/mrgnr/camus
 [digitalocean]: https://www.digitalocean.com/
