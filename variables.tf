@@ -31,6 +31,12 @@ variable "droplet_size" {
   description = "The size of the droplet."
 }
 
+variable "droplet_image" {
+  type = string
+  default = "ubuntu-20-04-x64"
+  description = "The OS image for the droplet."
+}
+
 variable "droplet_backups" {
   type = bool
   default = false
@@ -47,4 +53,16 @@ variable "droplet_ipv6" {
   type = bool
   default = false
   description = "Whether to enable IPv6 on the droplet."
+}
+
+variable "project_environment" {
+  type = string
+  default = "Production"
+  description = "The deployment environment for the project."
+}
+
+variable "acme_url" {
+  type = string
+  default = "https://acme-v02.api.letsencrypt.org/directory"
+  description = "The URL of the ACME server used to obtain an SSL certificate."
 }

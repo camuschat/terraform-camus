@@ -19,7 +19,7 @@ resource "digitalocean_project" "main" {
   name = "camus"
   description = "Camus video chat server"
   purpose = "Web Application"
-  environment = "Production"
+  environment = var.project_environment
   resources = [
     digitalocean_droplet.main.urn,
     digitalocean_domain.main.urn
@@ -27,7 +27,7 @@ resource "digitalocean_project" "main" {
 }
 
 resource "digitalocean_droplet" "main" {
-  image = "ubuntu-20-04-x64"
+  image = var.droplet_image
   name = "camus"
   region = var.region
   size = var.droplet_size
@@ -102,7 +102,7 @@ resource "digitalocean_record" "main" {
 }
 
 provider "acme" {
-  server_url = "https://acme-v02.api.letsencrypt.org/directory"
+  server_url = var.acme_url
 }
 
 resource "tls_private_key" "private_key" {
