@@ -1,0 +1,8 @@
+packages:
+  - snapd
+  - nginx
+
+runcmd:
+  - snap install core camus
+  - systemctl enable nginx
+  - systemctl start nginx

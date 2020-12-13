@@ -1,0 +1,11 @@
+packages:
+  - epel-release
+
+runcmd:
+  - yum -y install snapd nginx
+  - setsebool -P httpd_can_network_connect 1
+  - systemctl enable --now snapd.socket
+  - snap wait system seed.loaded
+  - snap install camus
+  - systemctl enable nginx
+  - systemctl start nginx
