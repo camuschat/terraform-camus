@@ -66,3 +66,15 @@ variable "acme_url" {
   default = "https://acme-v02.api.letsencrypt.org/directory"
   description = "The URL of the ACME server used to obtain an SSL certificate."
 }
+
+variable "coturn_min_port" {
+  type = number
+  default = 10000
+  description = "The beginning of the port range to use for TURN connections."
+}
+
+variable "coturn_max_port" {
+  type = number
+  default = 20000
+  description = "The end of the port range to use for TURN connections."
+}

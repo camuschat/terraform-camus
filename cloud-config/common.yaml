@@ -16,3 +16,8 @@ write_files:
     path: /etc/ssl/private/camus-key.pem
     owner: root:root
     permissions: '0600'
+  - content: ${base64encode(turn_conf)}
+    encoding: b64
+    path: /etc/turnserver.conf
+    owner: root:root
+    permissions: '0644'

@@ -1,8 +1,11 @@
 packages:
   - snapd
   - nginx
+  - coturn
 
 runcmd:
   - snap install core camus
   - systemctl enable nginx
   - systemctl start nginx
+  - systemctl enable coturn
+  - systemctl start coturn
