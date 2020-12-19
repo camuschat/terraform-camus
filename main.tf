@@ -57,12 +57,17 @@ resource "digitalocean_droplet" "main" {
       ssl_key = acme_certificate.certificate.private_key_pem
       turn_conf = templatefile("${path.module}/turnserver.conf", {
         realm = "turn.${var.domain}"
+        listen_port = var.coturn_listen_port
         min_port = var.coturn_min_port
         max_port = var.coturn_max_port
         static_auth_secret = random_password.coturn_static_auth_secret.result
       })
     }),
-    file("${path.module}/cloud-config/${local.distro}.yaml")
+    templatefile("${path.module}/cloud-config/${local.distro}.yaml", {
+      turn_host = "turn.${var.domain}"
+      turn_port = var.coturn_listen_port
+      turn_static_auth_secret = random_password.coturn_static_auth_secret.result
+    })
   ])
 
   tags = ["camus"]

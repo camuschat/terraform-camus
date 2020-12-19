@@ -67,6 +67,12 @@ variable "acme_url" {
   description = "The URL of the ACME server used to obtain an SSL certificate."
 }
 
+variable "coturn_listen_port" {
+  type = number
+  default = 3478
+  description = "The port to listen on for establishing new TURN connections."
+}
+
 variable "coturn_min_port" {
   type = number
   default = 10000

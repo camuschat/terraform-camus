@@ -5,6 +5,7 @@ packages:
 
 runcmd:
   - snap install core camus
+  - snap set camus turn.host=${turn_host} turn.port=${turn_port} turn.static-auth-secret=${turn_static_auth_secret}
   - systemctl enable nginx
   - systemctl start nginx
   - systemctl enable coturn
