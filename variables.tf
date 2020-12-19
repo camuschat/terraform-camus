@@ -84,3 +84,33 @@ variable "coturn_max_port" {
   default = 20000
   description = "The end of the port range to use for TURN connections."
 }
+
+variable "stun_host" {
+  type = string
+  default = ""
+  description = "The hostname or IP address of the STUN server to use for connecting clients."
+}
+
+variable "stun_port" {
+  type = number
+  default = 19302
+  description = "The port of the STUN server to use for connecting clients."
+}
+
+variable "twilio_account_sid" {
+  type = string
+  default = ""
+  description = "A Twilio account SID."
+}
+
+variable "twilio_auth_token" {
+  type = string
+  default = ""
+  description = "A Twilio account auth token or API key secret."
+}
+
+variable "twilio_key_sid" {
+  type = string
+  default = ""
+  description = "A Twilio API key SID."
+}

@@ -52,9 +52,14 @@ resource "digitalocean_droplet" "main" {
   # Provision the droplet using cloud-config
   user_data = join("\n", [
     templatefile("${path.module}/cloud-config/common.yaml", {
+      # Nginx configuration
       nginx_conf = templatefile("${path.module}/nginx.conf", { domain = var.domain })
+
+      # SSL certificiates
       ssl_cert = "${acme_certificate.certificate.certificate_pem}${acme_certificate.certificate.issuer_pem}"
       ssl_key = acme_certificate.certificate.private_key_pem
+
+      # Coturn configuration
       turn_conf = templatefile("${path.module}/turnserver.conf", {
         realm = "turn.${var.domain}"
         listen_port = var.coturn_listen_port
@@ -64,9 +69,15 @@ resource "digitalocean_droplet" "main" {
       })
     }),
     templatefile("${path.module}/cloud-config/${local.distro}.yaml", {
+      # Settings passed to Camus
+      stun_host = var.stun_host
+      stun_port = var.stun_port
       turn_host = "turn.${var.domain}"
       turn_port = var.coturn_listen_port
       turn_static_auth_secret = random_password.coturn_static_auth_secret.result
+      twilio_account_sid = var.twilio_account_sid
+      twilio_auth_token = var.twilio_auth_token
+      twilio_key_sid = var.twilio_key_sid
     })
   ])
 

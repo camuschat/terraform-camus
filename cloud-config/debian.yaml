@@ -6,6 +6,16 @@ packages:
 runcmd:
   - snap install core camus
   - snap set camus turn.host=${turn_host} turn.port=${turn_port} turn.static-auth-secret=${turn_static_auth_secret}
+  - |
+    snap set camus \
+      stun.host=${stun_host} \
+      stun.port=${stun_port} \
+      turn.host=${turn_host} \
+      turn.port=${turn_port} \
+      turn.static-auth-secret=${turn_static_auth_secret} \
+      twilio.account-sid=${twilio_account_sid} \
+      twilio.auth-token=${twilio_auth_token} \
+      twilio.key-sid=${twilio_key_sid}
   - systemctl enable nginx
   - systemctl start nginx
   - systemctl enable coturn
