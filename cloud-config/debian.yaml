@@ -1,11 +1,10 @@
 packages:
   - snapd
   - nginx
-  - coturn
+  ${ coturn_enabled ? "- coturn" : ""}
 
 runcmd:
   - snap install core camus
-  - snap set camus turn.host=${turn_host} turn.port=${turn_port} turn.static-auth-secret=${turn_static_auth_secret}
   - |
     snap set camus \
       stun.host=${stun_host} \
@@ -18,5 +17,5 @@ runcmd:
       twilio.key-sid=${twilio_key_sid}
   - systemctl enable nginx
   - systemctl start nginx
-  - systemctl enable coturn
-  - systemctl start coturn
+  ${ coturn_enabled ? "- systemctl enable coturn" : ""}
+  ${ coturn_enabled ? "- systemctl start coturn" : ""}

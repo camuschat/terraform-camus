@@ -2,7 +2,7 @@ packages:
   - epel-release
 
 runcmd:
-  - yum -y install snapd nginx coturn
+  - yum -y install snapd nginx ${ coturn_enabled ? "coturn" : ""}
   - setsebool -P httpd_can_network_connect 1
   - systemctl enable --now snapd.socket
   - snap wait system seed.loaded
@@ -19,5 +19,5 @@ runcmd:
       twilio.key-sid=${twilio_key_sid}
   - systemctl enable nginx
   - systemctl start nginx
-  - systemctl enable coturn
-  - systemctl start coturn
+  ${ coturn_enabled ? "- systemctl enable coturn" : ""}
+  ${ coturn_enabled ? "- systemctl start coturn" : ""}

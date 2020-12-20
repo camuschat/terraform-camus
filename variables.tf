@@ -67,6 +67,12 @@ variable "acme_url" {
   description = "The URL of the ACME server used to obtain an SSL certificate."
 }
 
+variable "coturn_enabled" {
+  type = bool
+  default = true
+  description = "Whether to install and configure a Coturn TURN server on the droplet."
+}
+
 variable "coturn_listen_port" {
   type = number
   default = 3478

@@ -60,21 +60,23 @@ resource "digitalocean_droplet" "main" {
       ssl_key = acme_certificate.certificate.private_key_pem
 
       # Coturn configuration
-      turn_conf = templatefile("${path.module}/turnserver.conf", {
+      turn_conf = var.coturn_enabled ? templatefile("${path.module}/turnserver.conf", {
         realm = "turn.${var.domain}"
         listen_port = var.coturn_listen_port
         min_port = var.coturn_min_port
         max_port = var.coturn_max_port
         static_auth_secret = random_password.coturn_static_auth_secret.result
-      })
+      }) : ""
     }),
     templatefile("${path.module}/cloud-config/${local.distro}.yaml", {
+      coturn_enabled = var.coturn_enabled
+
       # Settings passed to Camus
       stun_host = var.stun_host
       stun_port = var.stun_port
-      turn_host = "turn.${var.domain}"
-      turn_port = var.coturn_listen_port
-      turn_static_auth_secret = random_password.coturn_static_auth_secret.result
+      turn_host = var.coturn_enabled ? "turn.${var.domain}" : ""
+      turn_port = var.coturn_enabled ? var.coturn_listen_port : ""
+      turn_static_auth_secret = var.coturn_enabled ? "\"${random_password.coturn_static_auth_secret.result}\"" : ""
       twilio_account_sid = var.twilio_account_sid
       twilio_auth_token = var.twilio_auth_token
       twilio_key_sid = var.twilio_key_sid
@@ -117,10 +119,22 @@ resource "digitalocean_firewall" "main" {
     source_addresses = ["0.0.0.0/0", "::/0"]
   }
 
-  inbound_rule {
-    protocol = "udp"
-    port_range = "${var.coturn_min_port}-${var.coturn_max_port}"
-    source_addresses = ["0.0.0.0/0", "::/0"]
+  dynamic "inbound_rule" {
+    for_each = var.coturn_enabled ? [1] : []
+    content {
+      protocol = "tcp"
+      port_range = var.coturn_listen_port
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    }
+  }
+
+  dynamic "inbound_rule" {
+    for_each = var.coturn_enabled ? [1] : []
+    content {
+      protocol = "udp"
+      port_range = "${var.coturn_min_port}-${var.coturn_max_port}"
+      source_addresses = ["0.0.0.0/0", "::/0"]
+    }
   }
 
   outbound_rule {
