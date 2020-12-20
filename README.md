@@ -5,7 +5,7 @@ Deploy a [Camus][camus] server on DigitalOcean using Terraform.
 This Terraform module creates a fully-configured Camus deployment on
 DigitalOcean. It creates a DigitalOcean droplet, configures networking and
 firewall rules, creates a DNS record for the desired domain, obtains an SSL
-certificate via Let's Encrypt, and installs the Camus server and Nginx on the
+certificate via Let's Encrypt, and installs Camus, Coturn, and Nginx on the
 droplet.
 
 ## Quickstart
@@ -76,20 +76,29 @@ records to propagate.)
 
 ### Inputs
 
-| Name                | Description                                                             | Type     | Default                                            | Required |
-| ------------------- | ----------------------------------------------------------------------- | -------- | -------------------------------------------------- | -------- |
-| do_token            | Your Digital Ocean [API token][do-token].                               | `string` |                                                    | Yes      |
-| domain              | The domain for your site.                                               | `string` |                                                    | Yes      |
-| certificate_email   | The email address for the SSL certificate.                              | `string` |                                                    | Yes      |
-| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet. | `string` |                                                    | Yes      |
-| region              | The region where the droplet is deployed.                               | `string` | `"fra1"`                                           | No       |
-| droplet_size        | The size of the droplet.                                                | `string` | `"s-1vcpu-1gb"`                                    | No       |
-| droplet_image       | The OS image for the droplet.                                           | `string` | `"ubuntu-20-04-x64"`                               | No       |
-| droplet_backups     | Whether to enable backups on the droplet.                               | `bool`   | `false`                                            | No       |
-| droplet_monitoring  | Whether to enable monitoring on the droplet.                            | `bool`   | `false`                                            | No       |
-| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                  | `bool`   | `false`                                            | No       |
-| project_environment | The deployment environment for the project.                             | `string` | `"Production"`                                     | No       |
-| acme_url            | The URL of the ACME server used to obtain an SSL certificate.           | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | No       |
+| Name                | Description                                                                  | Type     | Default                                            | Required |
+| ------------------- | ---------------------------------------------------------------------------- | -------- | -------------------------------------------------- | -------- |
+| do_token            | Your Digital Ocean [API token][do-token].                                    | `string` |                                                    | Yes      |
+| domain              | The domain for your site.                                                    | `string` |                                                    | Yes      |
+| certificate_email   | The email address for the SSL certificate.                                   | `string` |                                                    | Yes      |
+| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet.      | `string` |                                                    | Yes      |
+| region              | The region where the droplet is deployed.                                    | `string` | `"fra1"`                                           | No       |
+| droplet_size        | The size of the droplet.                                                     | `string` | `"s-1vcpu-1gb"`                                    | No       |
+| droplet_image       | The OS image for the droplet.                                                | `string` | `"ubuntu-20-04-x64"`                               | No       |
+| droplet_backups     | Whether to enable backups on the droplet.                                    | `bool`   | `false`                                            | No       |
+| droplet_monitoring  | Whether to enable monitoring on the droplet.                                 | `bool`   | `false`                                            | No       |
+| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                       | `bool`   | `false`                                            | No       |
+| project_environment | The deployment environment for the project.                                  | `string` | `"Production"`                                     | No       |
+| acme_url            | The URL of the ACME server used to obtain an SSL certificate.                | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | No       |
+| coturn_enabled      | Whether to install and configure a Coturn TURN server on the droplet.        | `bool`   | `true`                                             | No       |
+| coturn_listen_port  | The port to listen on for establishing new TURN connections.                 | `number` | `3478`                                             | No       |
+| coturn_min_port     | The beginning of the port range to use for TURN connections.                 | `number` | `10000`                                            | No       |
+| coturn_max_port     | The end of the port range to use for TURN connections.                       | `number` | `20000`                                            | No       |
+| stun_host           | The hostname or IP address of the STUN server to use for connecting clients. | `string` | `""`                                               | No       |
+| stun_port           | The port of the STUN server to use for connecting clients.                   | `number` | `19302`                                            | No       |
+| twilio_account_sid  | A Twilio account SID.                                                        | `string` | `""`                                               | No       |
+| twilio_auth_token   | A Twilio account [auth token][twilio-auth-token] or API key secret.          | `string` | `""`                                               | No       |
+| twilio_key_sid      | A Twilio API key SID.                                                        | `string` | `""`                                               | No       |
 
 ### Outputs
 
@@ -136,3 +145,4 @@ The following droplet images are supported:
 [configure-registrar]: https://www.digitalocean.com/community/tutorials/how-to-point-to-digitalocean-nameservers-from-common-domain-registrars
 [do-token]: https://www.digitalocean.com/docs/apis-clis/api/create-personal-access-token/
 [do-add-ssh-key]: https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/to-account/
+[twilio-auth-token]: https://support.twilio.com/hc/en-us/articles/223136027-Auth-Tokens-and-How-to-Change-Them

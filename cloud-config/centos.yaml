@@ -2,10 +2,22 @@ packages:
   - epel-release
 
 runcmd:
-  - yum -y install snapd nginx
+  - yum -y install snapd nginx ${ coturn_enabled ? "coturn" : ""}
   - setsebool -P httpd_can_network_connect 1
   - systemctl enable --now snapd.socket
   - snap wait system seed.loaded
   - snap install camus
+  - |
+    snap set camus \
+      stun.host=${stun_host} \
+      stun.port=${stun_port} \
+      turn.host=${turn_host} \
+      turn.port=${turn_port} \
+      turn.static-auth-secret=${turn_static_auth_secret} \
+      twilio.account-sid=${twilio_account_sid} \
+      twilio.auth-token=${twilio_auth_token} \
+      twilio.key-sid=${twilio_key_sid}
   - systemctl enable nginx
   - systemctl start nginx
+  ${ coturn_enabled ? "- systemctl enable coturn" : ""}
+  ${ coturn_enabled ? "- systemctl start coturn" : ""}

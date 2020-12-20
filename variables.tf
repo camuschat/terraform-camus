@@ -66,3 +66,57 @@ variable "acme_url" {
   default = "https://acme-v02.api.letsencrypt.org/directory"
   description = "The URL of the ACME server used to obtain an SSL certificate."
 }
+
+variable "coturn_enabled" {
+  type = bool
+  default = true
+  description = "Whether to install and configure a Coturn TURN server on the droplet."
+}
+
+variable "coturn_listen_port" {
+  type = number
+  default = 3478
+  description = "The port to listen on for establishing new TURN connections."
+}
+
+variable "coturn_min_port" {
+  type = number
+  default = 10000
+  description = "The beginning of the port range to use for TURN connections."
+}
+
+variable "coturn_max_port" {
+  type = number
+  default = 20000
+  description = "The end of the port range to use for TURN connections."
+}
+
+variable "stun_host" {
+  type = string
+  default = ""
+  description = "The hostname or IP address of the STUN server to use for connecting clients."
+}
+
+variable "stun_port" {
+  type = number
+  default = 19302
+  description = "The port of the STUN server to use for connecting clients."
+}
+
+variable "twilio_account_sid" {
+  type = string
+  default = ""
+  description = "A Twilio account SID."
+}
+
+variable "twilio_auth_token" {
+  type = string
+  default = ""
+  description = "A Twilio account auth token or API key secret."
+}
+
+variable "twilio_key_sid" {
+  type = string
+  default = ""
+  description = "A Twilio API key SID."
+}
