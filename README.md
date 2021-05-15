@@ -75,30 +75,31 @@ records to propagate.)
 ## Module documentation
 
 ### Inputs
-
-| Name                | Description                                                                  | Type     | Default                                            | Required |
-| ------------------- | ---------------------------------------------------------------------------- | -------- | -------------------------------------------------- | -------- |
-| do_token            | Your Digital Ocean [API token][do-token].                                    | `string` |                                                    | Yes      |
-| domain              | The domain for your site.                                                    | `string` |                                                    | Yes      |
-| certificate_email   | The email address for the SSL certificate.                                   | `string` |                                                    | Yes      |
-| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet.      | `string` |                                                    | Yes      |
-| region              | The region where the droplet is deployed.                                    | `string` | `"fra1"`                                           | No       |
-| droplet_size        | The size of the droplet.                                                     | `string` | `"s-1vcpu-1gb"`                                    | No       |
-| droplet_image       | The OS image for the droplet.                                                | `string` | `"ubuntu-20-04-x64"`                               | No       |
-| droplet_backups     | Whether to enable backups on the droplet.                                    | `bool`   | `false`                                            | No       |
-| droplet_monitoring  | Whether to enable monitoring on the droplet.                                 | `bool`   | `false`                                            | No       |
-| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                       | `bool`   | `false`                                            | No       |
-| project_environment | The deployment environment for the project.                                  | `string` | `"Production"`                                     | No       |
-| acme_url            | The URL of the ACME server used to obtain an SSL certificate.                | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | No       |
-| coturn_enabled      | Whether to install and configure a Coturn TURN server on the droplet.        | `bool`   | `true`                                             | No       |
-| coturn_listen_port  | The port to listen on for establishing new TURN connections.                 | `number` | `3478`                                             | No       |
-| coturn_min_port     | The beginning of the port range to use for TURN connections.                 | `number` | `10000`                                            | No       |
-| coturn_max_port     | The end of the port range to use for TURN connections.                       | `number` | `20000`                                            | No       |
-| stun_host           | The hostname or IP address of the STUN server to use for connecting clients. | `string` | `""`                                               | No       |
-| stun_port           | The port of the STUN server to use for connecting clients.                   | `number` | `19302`                                            | No       |
-| twilio_account_sid  | A Twilio account SID.                                                        | `string` | `""`                                               | No       |
-| twilio_auth_token   | A Twilio account [auth token][twilio-auth-token] or API key secret.          | `string` | `""`                                               | No       |
-| twilio_key_sid      | A Twilio API key SID.                                                        | `string` | `""`                                               | No       |
+| Name                | Description                                                                                                                          | Type     | Default                                            | Required |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------- | -------------------------------------------------- | -------- |
+| do_token            | Your Digital Ocean [API token][do-token].                                                                                            | `string` |                                                    | Yes      |
+| domain              | The domain for your site.                                                                                                            | `string` |                                                    | Yes      |
+| certificate_email   | The email address for the SSL certificate.                                                                                           | `string` |                                                    | Yes      |
+| ssh_key_fingerprint | The fingerprint of the [SSH key][do-add-ssh-key] to add to the droplet.                                                              | `string` |                                                    | Yes      |
+| region              | The region where the droplet is deployed.                                                                                            | `string` | `"fra1"`                                           | No       |
+| droplet_size        | The size of the droplet.                                                                                                             | `string` | `"s-1vcpu-1gb"`                                    | No       |
+| droplet_image       | The OS image for the droplet.                                                                                                        | `string` | `"ubuntu-20-04-x64"`                               | No       |
+| droplet_backups     | Whether to enable backups on the droplet.                                                                                            | `bool`   | `false`                                            | No       |
+| droplet_monitoring  | Whether to enable monitoring on the droplet.                                                                                         | `bool`   | `false`                                            | No       |
+| droplet_ipv6        | Whether to enable IPv6 on the droplet.                                                                                               | `bool`   | `false`                                            | No       |
+| project_environment | The deployment environment for the project.                                                                                          | `string` | `"Production"`                                     | No       |
+| acme_url            | The URL of the ACME server used to obtain an SSL certificate.                                                                        | `string` | `"https://acme-v02.api.letsencrypt.org/directory"` | No       |
+| coturn_enabled      | Whether to install and configure a Coturn TURN server on the droplet.                                                                | `bool`   | `true`                                             | No       |
+| coturn_listen_port  | The port to listen on for establishing new TURN connections.                                                                         | `number` | `3478`                                             | No       |
+| coturn_min_port     | The beginning of the port range to use for TURN connections.                                                                         | `number` | `10000`                                            | No       |
+| coturn_max_port     | The end of the port range to use for TURN connections.                                                                               | `number` | `20000`                                            | No       |
+| database_url        | A URL identifying the database to be used. If not given, a local SQLite database is used.                                            | `string` | ""                                                 | No       |
+| secret_key          | The secret key used by the Camus server for user sessions and cookie signing. If not given, a random key is automatically generated. | `string` | ""                                                 | No       |
+| stun_host           | The hostname or IP address of the STUN server to use for connecting clients.                                                         | `string` | `""`                                               | No       |
+| stun_port           | The port of the STUN server to use for connecting clients.                                                                           | `number` | `19302`                                            | No       |
+| twilio_account_sid  | A Twilio account SID.                                                                                                                | `string` | `""`                                               | No       |
+| twilio_auth_token   | A Twilio account [auth token][twilio-auth-token] or API key secret.                                                                  | `string` | `""`                                               | No       |
+| twilio_key_sid      | A Twilio API key SID.                                                                                                                | `string` | `""`                                               | No       |
 
 ### Outputs
 

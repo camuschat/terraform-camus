@@ -7,6 +7,8 @@ runcmd:
   - snap install core camus
   - |
     snap set camus \
+      database-url=${database_url} \
+      secret-key=${secret_key} \
       stun.host=${stun_host} \
       stun.port=${stun_port} \
       turn.host=${turn_host} \

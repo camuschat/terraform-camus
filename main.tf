@@ -2,15 +2,15 @@ terraform {
   required_providers {
     random = {
       source = "hashicorp/random"
-      version = "3.0.0"
+      version = "3.1.0"
     }
     digitalocean = {
       source = "digitalocean/digitalocean"
-      version = "2.2.0"
+      version = "2.8.0"
     }
     acme = {
       source = "vancluever/acme"
-      version = "1.6.3"
+      version = "2.4.0"
     }
   }
 }
@@ -72,6 +72,8 @@ resource "digitalocean_droplet" "main" {
       coturn_enabled = var.coturn_enabled
 
       # Settings passed to Camus
+      database_url = var.database_url
+      secret_key = var.secret_key
       stun_host = var.stun_host
       stun_port = var.stun_port
       turn_host = var.coturn_enabled ? "turn.${var.domain}" : ""
