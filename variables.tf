@@ -91,6 +91,19 @@ variable "coturn_max_port" {
   description = "The end of the port range to use for TURN connections."
 }
 
+variable "database_url" {
+  type = string
+  default = ""
+  description = "A URL identifying the database to be used. If not given, a local SQLite database is used."
+}
+
+variable "secret_key" {
+  type = string
+  default = ""
+  sensitive = true
+  description = "The secret key used by the Camus server for user sessions and cookie signing."
+}
+
 variable "stun_host" {
   type = string
   default = ""
